@@ -53,6 +53,7 @@ export const AddItemButton = () => {
                 multiline={true}
                 rows={4}
               />
+              <TextField type="url" name="imageUrl" label="Image URL" fullWidth />
             </Stack>
           </DialogContent>
           <DialogActions>

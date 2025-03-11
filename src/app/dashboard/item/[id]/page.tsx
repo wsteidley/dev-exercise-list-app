@@ -18,6 +18,9 @@ export default async function Page({ params }: { params: { id: string } }) {
           <Typography color={itemDetails.description ? 'text.primary' : 'text.secondary'}>
             {itemDetails.description || 'No description'}
           </Typography>
+          {itemDetails.imageUrl && (
+            <img src={itemDetails.imageUrl} alt={itemDetails.name} loading="lazy" />
+          )}
         </>
       ) : (
         <Typography color="text.secondary">Item not found</Typography>
