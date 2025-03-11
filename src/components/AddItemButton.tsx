@@ -1,6 +1,7 @@
 'use client'
 
 import { addItemAction } from '@/app/actions'
+import getCategories from '@/app/hooks/getCategories'
 import { formatErrorMessage } from '@/lib/utils'
 import { Add } from '@mui/icons-material'
 import {
@@ -9,6 +10,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Stack,
   TextField,
 } from '@mui/material'
@@ -18,10 +23,18 @@ import { useState } from 'react'
 export const AddItemButton = () => {
   const { enqueueSnackbar } = useSnackbar()
   const [open, setOpen] = useState(false)
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const { categories } = getCategories()
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {
+    setSelectedCategories([])
     setOpen(false)
+  }
+
+  const handleCategoryChange = (event: SelectChangeEvent) => {
+    // single item array, allowing for multi select later
+    setSelectedCategories([event.target.value as string])
   }
 
   const handleSubmit = async (formData: FormData) => {
@@ -46,6 +59,23 @@ export const AddItemButton = () => {
           <DialogContent>
             <Stack spacing={2} sx={{ my: 2 }}>
               <TextField name="name" label="Name" fullWidth />
+              <InputLabel id="categoryLabel">Category</InputLabel>
+              <Select
+                labelId="categoryLabel"
+                name="categories"
+                label="Category"
+                value={selectedCategories?.[0] ?? ''}
+                onChange={handleCategoryChange}
+              >
+                <MenuItem value="">
+                  <em>Uncategorized</em>
+                </MenuItem>
+                {categories.map((category) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
               <TextField
                 name="description"
                 label="Description"

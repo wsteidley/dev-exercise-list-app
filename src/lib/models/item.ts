@@ -13,6 +13,7 @@ type ListItemDetails = {
   name: string
   description: string | null
   imageUrl: string | null
+  categories: string[] | null
 }
 
 export const listMyItems = async (authUser: AuthUser): Promise<ListItem[]> => {
@@ -31,6 +32,7 @@ export const getItemDetails = async (
     name: listItem.name,
     description: listItem.description,
     imageUrl: listItem.imageUrl,
+    categories: listItem.categoryId ? [listItem.categoryId] : null,
   }
 }
 
@@ -39,14 +41,16 @@ export const createItem = async (
   name: string,
   description: string,
   imageUrl: string,
+  categories: string[],
 ): Promise<ListItem> => {
   const schema = z.object({
     name: z.string().trim().min(1),
     description: z.string().trim().optional(),
     imageUrl: z.string().trim().optional(),
+    categories: z.string().array().optional(),
   })
 
-  const parse = schema.safeParse({ name, description, imageUrl })
+  const parse = schema.safeParse({ name, description, imageUrl, categories })
 
   if (!parse.success) {
     throw fromError(parse.error)
@@ -59,6 +63,7 @@ export const createItem = async (
       description: data.description,
       authorId: authUser.id,
       imageUrl: data.imageUrl,
+      categoryId: data.categories?.[0],
     },
   })
   return { id: listItem.id, name: listItem.name }
