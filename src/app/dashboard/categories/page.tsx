@@ -81,6 +81,7 @@ export default async function Categories({ searchParams }: SearchParamsProps) {
           {categoriesWithItems.map((category) => {
             return (
               <Box
+                key={category.id}
                 sx={{
                   border: 1,
                   borderColor: 'grey.200',

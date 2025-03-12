@@ -1,7 +1,7 @@
 'use client'
 
 import { addItemAction } from '@/app/actions'
-import getCategories from '@/app/hooks/getCategories'
+import useCategories from '@/app/hooks/useCategories'
 import { formatErrorMessage } from '@/lib/utils'
 import { Add } from '@mui/icons-material'
 import ImageIcon from '@mui/icons-material/Image'
@@ -28,7 +28,7 @@ export const AddItemButton = () => {
   const [open, setOpen] = useState(false)
   const [imageUrl, setImageUrl] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
-  const { categories } = getCategories()
+  const { categories } = useCategories()
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => {

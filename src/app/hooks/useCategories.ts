@@ -2,7 +2,7 @@
 import { Category } from '@/lib/models/category'
 import { useEffect, useState } from 'react'
 
-export default function getCategories(): {
+export default function useCategories(): {
   categories: Category[]
   loading: boolean
   error: Error | null
