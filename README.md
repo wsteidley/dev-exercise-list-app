@@ -2,6 +2,45 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+- To get the app running in your local environment
+  - You will need Clerk API keys (clerk.com) - super easy to sign up and get some keys to test with.
+  - Configure a `.env` file (see the .env.template in the repo) for the local docker Postgres or feel free to use a database provider of your choice to spin up a free database (eg. Neon, Supabases).
+  - You should be able to sign up, login, view veggie listings in the marketplace, and create new listings from your dashboard.
+
+### Postgres
+
+Running `docker-compose up` in the repo will bring up the Postgres container.
+
+You can grab the credentials to configure the `.env` file from the `docker-compose.yaml` file.
+
+If `prisma` has an issue connecting please verify you can connect with the credentials via the `psql` cli tool.
+
+```
+$ sql postgresql://someUsernameHere:somePasswordHere@localhost:5432/mydb
+```
+
+If that does not work you may need to connect to the container directly and set the user password:
+
+```
+$ docker exec -it postgres-prisma psql -U prisma -d mydb
+
+mydb=# ALTER USER prisma WITH PASSWORD 'somePasswordHere';
+
+mydb=# \n
+```
+
+### Prisma
+
+This project uses [prisma](https://www.prisma.io/)
+
+- If you are unfamiliar with Prisma, here are some commands that may be helpful:
+  - `npx prisma db push` will update your DB schema based on the `schema.prisma` file in the repo and also regenerate the Prisma Client so prisma types are up to date.
+  - `npx prisma studio` will launch a Admin UI for your database at localhost:5555
+
+### Run the App
+
+Assuming all the configuration is correct and the DB is running:
+
 First, run the development server:
 
 ```bash
