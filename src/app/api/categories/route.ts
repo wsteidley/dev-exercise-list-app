@@ -13,7 +13,6 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('>>>>>here POSTING')
     const body = await request.json()
 
     if (!body.name) {
