@@ -5,6 +5,7 @@ import { pluralize } from '@/lib/utils'
 import {
   Box,
   Divider,
+  Link,
   List,
   ListItem,
   ListItemButton,
@@ -27,13 +28,19 @@ export default async function Home() {
           justifyContent: 'space-between',
         }}
       >
-        <Typography variant="body1">
-          You have{' '}
-          <Box component="span" sx={{ fontWeight: 700 }}>
-            {items.length.toLocaleString()} {pluralize(items.length, 'item', 'items')}
-          </Box>{' '}
-          in your list
-        </Typography>
+        <Box>
+          <Typography variant="body1">
+            You have{' '}
+            <Box component="span" sx={{ fontWeight: 700 }}>
+              {items.length.toLocaleString()} {pluralize(items.length, 'item', 'items')}
+            </Box>{' '}
+            in your list
+          </Typography>
+          <Typography variant="body1">
+            {' '}
+            <Link href="/dashboard/categories">View by Category</Link>
+          </Typography>
+        </Box>
 
         <AddItemButton />
       </Box>
@@ -45,12 +52,19 @@ export default async function Home() {
             borderRadius: 1,
           }}
         >
-          <List disablePadding>
+          <List
+            disablePadding
+            sx={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap', gap: '1rem' }}
+          >
             {items.map((item, index) => (
-              <Box key={item.id}>
+              <Box key={item.id} sx={{ border: '1px solid black' }}>
                 <ListItem key={item.id} disableGutters disablePadding>
-                  <ListItemButton href={`/dashboard/item/${item.id}`}>
+                  <ListItemButton
+                    sx={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}
+                    href={`/dashboard/item/${item.id}`}
+                  >
                     <ListItemText primary={item.name} />
+                    <ListItemText secondary={item?.category?.name ?? 'Uncategorized'} />
                   </ListItemButton>
                 </ListItem>
                 {index < items.length - 1 && <Divider />}
